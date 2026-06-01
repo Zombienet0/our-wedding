@@ -228,62 +228,82 @@ async (e)=>{
 
   try{
 
-    const response =
-      await fetch(
-        scriptURL,
-        {
-          method:"POST",
+      const formData = new FormData();
 
-          headers:{
-            "Content-Type":
-              "application/json"
-          },
-
-          body:
-            JSON.stringify(data)
-        }
+      formData.append(
+        "name",
+        data.name
       );
 
-    if(response.ok){
+      formData.append(
+        "attendance",
+        data.attendance
+      );
 
-      submitBtn.innerText =
-        "Спасибо! 🤍";
+      formData.append(
+        "drinks",
+        data.drinks
+      );
 
-      document
-        .getElementById(
-          "rsvpForm"
-        )
-        .reset();
+      formData.append(
+        "strongAlcohol",
+        data.strongAlcohol
+      );
 
-      attendanceValue = "";
+      formData.append(
+        "noAlcohol",
+        data.noAlcohol
+      );
 
-      document
-        .querySelectorAll(
-          ".choice-button"
-        )
-        .forEach(btn=>{
+      formData.append(
+        "allergy",
+        data.allergy
+      );
 
-          btn.style.background =
-            "#f3ebe4";
+      formData.append(
+        "hotel",
+        data.hotel
+      );
 
-          btn.style.color =
-            "#2b2b2b";
+      const response =
+        await fetch(
+          scriptURL,
+          {
+            method: "POST",
+            body: formData
+          }
+        );
 
-        });
+    submitBtn.innerText =
+      "Спасибо! 🤍";
 
-      strongAlcoholInput.style.display =
-        "none";
+    document
+      .getElementById(
+        "rsvpForm"
+      )
+      .reset();
 
-      noAlcoholInput.style.display =
-        "none";
+    attendanceValue = "";
 
-    }
+    document
+      .querySelectorAll(
+        ".choice-button"
+      )
+      .forEach(btn=>{
 
-    else{
+        btn.style.background =
+          "#f3ebe4";
 
-      throw new Error();
+        btn.style.color =
+          "#2b2b2b";
 
-    }
+      });
+
+    strongAlcoholInput.style.display =
+      "none";
+
+    noAlcoholInput.style.display =
+      "none";
 
   }
 
