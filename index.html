@@ -59,10 +59,6 @@
 
       <div class="invite-left">
 
-        <p class="invite-top">
-          wedding day
-        </p>
-
         <h2>
           Дорогие и близкие!
         </h2>
@@ -386,7 +382,7 @@
       <div class="dresscode-left">
 
         <p class="section-mini">
-          Dress code
+          Дресс-код
         </p>
 
         <h2>
@@ -417,6 +413,48 @@
           оливковый, терракотовый,
           песочный и другие
           мягкие природные оттенки.
+
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+    <!-- GIFTS -->
+
+  <section class="section gifts-section">
+
+    <div class="container gifts-container">
+
+      <div class="section-head">
+
+        <p class="section-mini">
+          Подарки
+        </p>
+
+        <h2>
+          Небольшое пожелание
+        </h2>
+
+      </div>
+
+      <div class="gift-card">
+
+        <p>
+
+          Самое важное для нас —
+          разделить этот день вместе
+          с дорогими и близкими людьми.
+
+        </p>
+
+        <p>
+
+          Если вы захотите поздравить нас подарком,
+          мы будем благодарны за вклад
+          в осуществление наших общих мечт
+          и будущих семейных планов.
 
         </p>
 
@@ -465,6 +503,7 @@
           </label>
 
           <input
+            id="guestName"
             type="text"
             placeholder="Введите имя и фамилию"
             required
@@ -485,6 +524,7 @@
             <button
               type="button"
               class="choice-button"
+              data-value="Да"
             >
               Да, с радостью
             </button>
@@ -492,6 +532,7 @@
             <button
               type="button"
               class="choice-button"
+              data-value="Нет"
             >
               К сожалению, нет
             </button>
@@ -579,6 +620,7 @@
           </label>
 
           <textarea
+            id="allergy"
             placeholder="Если есть — укажите"
           ></textarea>
 
@@ -599,6 +641,7 @@
               <input
                 type="radio"
                 name="hotel"
+                value="Да"
               >
 
               <span>
@@ -612,6 +655,7 @@
               <input
                 type="radio"
                 name="hotel"
+                value="Нет"
               >
 
               <span>
@@ -625,6 +669,7 @@
         </div>
 
         <button
+          id="submitBtn"
           type="submit"
           class="submit-button"
         >

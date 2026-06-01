@@ -1,9 +1,11 @@
-// script.js
-
-/* TIMER */
+// =====================================
+// TIMER
+// =====================================
 
 const weddingDate =
   new Date("2026-07-18T12:30:00");
+
+let attendanceValue = "";
 
 function updateTimer(){
 
@@ -13,36 +15,39 @@ function updateTimer(){
     weddingDate - now;
 
   const days =
-    Math.floor(diff / (1000*60*60*24));
+    Math.floor(diff / (1000 * 60 * 60 * 24));
 
   const hours =
-    Math.floor((diff / (1000*60*60)) % 24);
+    Math.floor((diff / (1000 * 60 * 60)) % 24);
 
   const minutes =
-    Math.floor((diff / (1000*60)) % 60);
+    Math.floor((diff / (1000 * 60)) % 60);
 
   const seconds =
     Math.floor((diff / 1000) % 60);
 
   document.getElementById("days").innerText =
-    days;
+    days < 10 ? "0" + days : days;
 
   document.getElementById("hours").innerText =
-    hours;
+    hours < 10 ? "0" + hours : hours;
 
   document.getElementById("minutes").innerText =
-    minutes;
+    minutes < 10 ? "0" + minutes : minutes;
 
   document.getElementById("seconds").innerText =
-    seconds;
+    seconds < 10 ? "0" + seconds : seconds;
 
 }
 
-setInterval(updateTimer,1000);
+setInterval(updateTimer, 1000);
 
 updateTimer();
 
-/* BUTTON ACTIVE */
+
+// =====================================
+// ATTENDANCE BUTTONS
+// =====================================
 
 document
 .querySelectorAll(".choice-button")
@@ -50,29 +55,35 @@ document
 
   button.addEventListener("click",()=>{
 
-    button.parentNode
-    .querySelectorAll(".choice-button")
-    .forEach(btn=>{
+    attendanceValue =
+      button.dataset.value;
 
-      btn.style.background =
-        "#f3ebe4";
+    document
+      .querySelectorAll(".choice-button")
+      .forEach(btn=>{
 
-      btn.style.color =
-        "#2b2b2b";
+        btn.style.background =
+          "#f3ebe4";
 
-    });
+        btn.style.color =
+          "#2b2b2b";
+
+      });
 
     button.style.background =
       "#b08968";
 
     button.style.color =
-      "white";
+      "#ffffff";
 
   });
 
 });
 
-/* STRONG ALCOHOL */
+
+// =====================================
+// STRONG ALCOHOL FIELD
+// =====================================
 
 const strongAlcohol =
   document.getElementById(
@@ -84,19 +95,26 @@ const strongAlcoholInput =
     "strongAlcoholInput"
   );
 
-strongAlcohol.addEventListener(
-  "change",
-  ()=>{
+if(strongAlcohol){
 
-    strongAlcoholInput.style.display =
-      strongAlcohol.checked
-      ? "block"
-      : "none";
+  strongAlcohol.addEventListener(
+    "change",
+    ()=>{
 
-  }
-);
+      strongAlcoholInput.style.display =
+        strongAlcohol.checked
+          ? "block"
+          : "none";
 
-/* NO ALCOHOL */
+    }
+  );
+
+}
+
+
+// =====================================
+// NO ALCOHOL FIELD
+// =====================================
 
 const noAlcohol =
   document.getElementById(
@@ -108,31 +126,181 @@ const noAlcoholInput =
     "noAlcoholInput"
   );
 
-noAlcohol.addEventListener(
-  "change",
-  ()=>{
+if(noAlcohol){
 
-    noAlcoholInput.style.display =
-      noAlcohol.checked
-      ? "block"
-      : "none";
+  noAlcohol.addEventListener(
+    "change",
+    ()=>{
 
-  }
-);
+      noAlcoholInput.style.display =
+        noAlcohol.checked
+          ? "block"
+          : "none";
 
-/* FORM */
+    }
+  );
+
+}
+
+
+// =====================================
+// GOOGLE SHEETS
+// =====================================
+
+const scriptURL =
+"https://script.google.com/macros/s/AKfycbx3-cVFwJKS0QNFjj__LSN2yIjVAwikI5OWwfU7ctU6Ccx1se0bQqaexWPfivbCo99Asw/exec";
 
 document
 .getElementById("rsvpForm")
 .addEventListener(
-  "submit",
-  (e)=>{
+"submit",
+async (e)=>{
 
-    e.preventDefault();
+  e.preventDefault();
 
-    alert(
-      "Спасибо! 🤍\n\nАнкета отправлена."
+  const submitBtn =
+    document.getElementById(
+      "submitBtn"
     );
 
+  submitBtn.disabled = true;
+
+  submitBtn.innerText =
+    "Отправляем...";
+
+  const drinks = [];
+
+  document
+  .querySelectorAll(
+    ".checkbox-item input:checked"
+  )
+  .forEach(item=>{
+
+    drinks.push(
+      item.parentElement
+      .innerText
+      .trim()
+    );
+
+  });
+
+  const hotel =
+    document.querySelector(
+      'input[name="hotel"]:checked'
+    )?.value || "";
+
+  const data = {
+
+    name:
+      document
+      .getElementById(
+        "guestName"
+      )?.value || "",
+
+    attendance:
+      attendanceValue,
+
+    drinks:
+      drinks.join(", "),
+
+    strongAlcohol:
+      document
+      .getElementById(
+        "strongAlcoholInput"
+      )?.value || "",
+
+    noAlcohol:
+      document
+      .getElementById(
+        "noAlcoholInput"
+      )?.value || "",
+
+    allergy:
+      document
+      .getElementById(
+        "allergy"
+      )?.value || "",
+
+    hotel:
+      hotel
+
+  };
+
+  try{
+
+    const response =
+      await fetch(
+        scriptURL,
+        {
+          method:"POST",
+
+          headers:{
+            "Content-Type":
+              "application/json"
+          },
+
+          body:
+            JSON.stringify(data)
+        }
+      );
+
+    if(response.ok){
+
+      submitBtn.innerText =
+        "Спасибо! 🤍";
+
+      document
+        .getElementById(
+          "rsvpForm"
+        )
+        .reset();
+
+      attendanceValue = "";
+
+      document
+        .querySelectorAll(
+          ".choice-button"
+        )
+        .forEach(btn=>{
+
+          btn.style.background =
+            "#f3ebe4";
+
+          btn.style.color =
+            "#2b2b2b";
+
+        });
+
+      strongAlcoholInput.style.display =
+        "none";
+
+      noAlcoholInput.style.display =
+        "none";
+
+    }
+
+    else{
+
+      throw new Error();
+
+    }
+
   }
-);
+
+  catch(error){
+
+    submitBtn.disabled = false;
+
+    submitBtn.innerText =
+      "Ошибка отправки";
+
+    setTimeout(()=>{
+
+      submitBtn.innerText =
+        "Отправить анкету";
+
+    },3000);
+
+  }
+
+});

@@ -525,6 +525,66 @@ textarea{
   transform:translateY(-3px);
 }
 
+/* GIFTS */
+
+.gifts-section{
+  padding-top:110px;
+  padding-bottom:110px;
+}
+
+.gifts-container{
+  max-width:850px;
+}
+
+.gift-card{
+
+  padding:50px;
+
+  background:
+    rgba(255,255,255,.72);
+
+  backdrop-filter:blur(10px);
+
+  border-radius:34px;
+
+  border:
+    1px solid rgba(255,255,255,.8);
+
+  box-shadow:
+    0 10px 40px rgba(0,0,0,.04);
+
+  text-align:center;
+}
+
+.gift-card p{
+
+  font-size:20px;
+
+  line-height:2;
+
+  color:#675d56;
+
+  max-width:620px;
+
+  margin:0 auto 24px;
+}
+
+.gift-card p:last-child{
+  margin-bottom:0;
+}
+
+@media(max-width:768px){
+
+  .gift-card{
+    padding:30px 24px;
+  }
+
+  .gift-card p{
+    font-size:18px;
+  }
+
+}
+
 /* MOBILE */
 
 @media(max-width:900px){
