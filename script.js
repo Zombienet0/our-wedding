@@ -270,6 +270,7 @@ async (e)=>{
           scriptURL,
           {
             method: "POST",
+            mode: "no-cors",
             body: formData
           }
         );
